@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Profile{% endblock %}
+
+{% block content %}
+
+<div class="container text-center">
+    <div class="row">
+        <div class="col-8">
+            <h1>{{ profile.user.username }}'s Profile</h1>
+
+
+            <div class="card mb-3">
+              <div class="row g-0">
+                <div class="col-md-2">
+                    {% if profile.profile_img %}
+                  <img src="{{ profile.profile_img.url }}"
+                       class="img-fluid rounded-start">
+                    {% else %}
+                    <img src="{% static 'static/accounts/images/Def.png' %}"
+                         class="img-fluid rounded-start">
+                    {% endif %}
+                </div>
+                <div class="col-md-10">
+                  <div class="card-body">
+                    <h5 class="card-title">
+                        {{ profile.first_name }}
+                        {{ profile.last_name }}</h5>
+                    <p class="card-text">{{ profile.bio }}</p>
+                      <small><p class="card-text">{{ profile.created_at }}</p></small>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+
+        </div>
+        <div class="col-4">
+                <div class="card">
+                    <h5 class="card-header"><strong>Follows (Total Follows: {{ total_follows}})</strong></h5>
+                    <div class="card-body">
+                        <p class="card-text">
+                            {% for following in profile.follows.all %}
+                                <a href="{% url 'profile' following.user.id %}">{{ following }}</a>
+                            <br>
+                            {% endfor %}
+                        </p>
+                    </div>
+                </div>
+            <br><br>
+            <div class="card">
+                    <h5 class="card-header"><strong>Followed By</strong></h5>
+                    <div class="card-body">
+                        <p class="card-text">
+                            {% for following in profile.followed_by.all %}
+                                <a href="{% url 'profile' following.user.id %}">{{ following }}</a>
+                            <br>
+                            {% endfor %}
+                        </p>
+                    </div>
+                </div>
+            <br>
+            <form method="POST">
+                {% csrf_token %}
+                {% if profile in user.profile.follows.all %}
+                     <button class="btn btn-outline-danger"
+                             name="follow" value="unfollow" type="submit">
+                         Unfollow {{ profile.user.username }}
+                     </button>
+                {% else %}
+                    <button class="btn btn-outline-success"
+                            name="follow" value="follow" type="submit">
+                         Follow {{ profile.user.username }}
+                     </button>
+                {% endif %}
+            </form>
+            <br>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

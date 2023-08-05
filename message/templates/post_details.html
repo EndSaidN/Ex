@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}{{post.title}}{% endblock title %}
+
+{% block content %}
+<h1>{{ post.title }}</h1>
+<small>By:
+    {{ post.author.first_name }}
+    {{ post.author.last_name}} -
+    {{ post.post_date }} -
+    {% if user == post.author.profile.user %}
+    <small><a href="{% url 'update-post' post.pk %}">(Edit)</a></small>
+    <small><a href="{% url 'delete-post' post.pk %}">(Delete)</a></small>
+    {% endif %}
+</small>
+<br>
+<hr>
+<br>
+{{ post.body|safe }}
+
+<br><br>
+<a href="{% url 'home' %}" class="btn btn-secondary">Back</a>
+
+<br><br>
+<hr>
+<form action="{% url 'like-post' post.pk %}" method="POST">
+    {% csrf_token %}
+    {% if liked %}
+        <button type="submit" name="post_id" value="{{ post.id }}"
+                class="btn btn-danger btn-sm">Unlike
+        </button>
+    {% else %}
+        <button type="submit" name="post_id" value="{{ post.id }}"
+                class="btn btn-primary btn-sm">Like
+        </button>
+    {% endif %}
+
+    - {{ total_likes }}
+</form>
+<hr>
+<div class="card mb-3">
+  <div class="row g-0">
+    <div class="col-md-2">
+        {% if post.author.profile.profile_img %}
+      <img src="{{ post.author.profile.profile_img.url }}"
+           class="img-fluid rounded-start">
+        {% else %}
+        <img src="{% static 'static/message/images/Def.png' %}"
+             class="img-fluid rounded-start">
+        {% endif %}
+    </div>
+    <div class="col-md-10">
+      <div class="card-body">
+        <h5 class="card-title">
+            {{ post.author.first_name }}
+            {{ post.author.last_name }}</h5>
+          <p class="small text-muted">
+              <a href="{% url 'profile' post.author.profile.id %}">Profile Page</a>
+          </p>
+        <p class="card-text">{{ post.author.profile.bio }}</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<br>
+<h1>Comments...</h1>
+<br>
+{% if not post.comments.all %}
+    No comments Yet <a href="{% url 'add-comment' post.pk %}">Add One</a>
+{% else %}
+<a href="{% url 'add-comment' post.pk %}">Add Comment</a>
+<br><br>
+    {% for comment in post.comments.all %}
+    <strong>
+        {{ comment.name }}
+        {{ comment.date_added }}
+    </strong>
+    <br>
+    {{comment.body}}
+{% endfor %}
+{% endif %}
+{% endblock %}

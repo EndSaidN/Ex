@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}All Users{% endblock title %}
+
+{% block content %}
+{% for profile in object_list %}
+    <div class="card mb-3">
+      <div class="row g-0">
+        <div class="col-md-2">
+            {% if profile.profile_img %}
+            <img src="{{ profile.profile_img.url }}"
+               class="img-fluid rounded-start">
+            {% else %}
+            <img src="{% static 'static/accounts/images/Def.png' %}"
+                 class="img-fluid rounded-start">
+            {% endif %}
+        </div>
+        <div class="col-md-10">
+          <div class="card-body">
+            <h5 class="card-title">
+                {{ profile.user.username }}</h5>
+              <p class="small text-muted">
+                  <a href="{% url 'profile' profile.user.id %}">Profile Page</a>
+              </p>
+            <p class="card-text">{{ profile.bio }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+<br>
+{% endfor %}
+
+
+
+{% endblock %}
+
+
+
+
