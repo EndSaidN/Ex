@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block title %}Add Comment{% endblock title %}
+
+{% block content %}
+<h1>Add Comment...</h1>
+<br><br>
+<div class="form-group">
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button class="btn btn-success">Add Comment</button>
+    </form>
+
+</div>
+{% endblock %}
+<!--    <a href="{% url 'detail-post' post.pk %}" class="btn btn-secondary">Back</a>-->

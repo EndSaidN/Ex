@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}My Profile{% endblock title %}
+{% block content %}
+<h1>{{ page_user.user.first_name }}'s Profile</h1>
+<br>
+<div class="card mb-3">
+  <div class="row g-0">
+    <div class="col-md-2">
+        {% if page_user.profile_img %}
+      <img src="{{ page_user.profile_img.url }}"
+           class="img-fluid rounded-start">
+        {% else %}
+        <img src="{% static 'static/message/images/Def.png' %}"
+             class="img-fluid rounded-start">
+        {% endif %}
+    </div>
+    <div class="col-md-10">
+      <div class="card-body">
+        <h5 class="card-title">
+            {{ page_user.user.first_name }}
+            {{ page_user.user.last_name }}</h5>
+          <p class="small text-muted"></p>
+        <p class="card-text">{{ page_user.bio }}</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
