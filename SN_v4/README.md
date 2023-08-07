@@ -23,5 +23,5 @@ $ install -r requirements.txt
 [selfedu](https://www.youtube.com/@selfedu_rus)   
 [Django Doc](https://www.djangoproject.com/)  
 [Rest Doc](https://www.django-rest-framework.org/)  
-[Bootstrap Doc](https://getbootstrap.com/)   
-
+[Bootstrap Doc](https://getbootstrap.com/)  
+[Abdurasulov Codes](https://www.youtube.com/@abdurasulovcodes)   
